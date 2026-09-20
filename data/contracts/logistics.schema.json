@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://logistream.local/contracts/logistics.schema.json",
+  "title": "LogiStream delivery",
+  "description": "Evento de entrega no TMS. Grao: delivery_id.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "delivery_id",
+    "order_id",
+    "vehicle_id",
+    "route_id",
+    "origin_cd",
+    "promised_hours",
+    "actual_hours",
+    "transport_cost",
+    "distance_km",
+    "departed_ts",
+    "delivered_ts",
+    "status"
+  ],
+  "properties": {
+    "delivery_id": { "type": "string", "pattern": "^DLV-[0-9]{8}$" },
+    "order_id": { "type": "string", "pattern": "^ORD-[0-9]{8}$" },
+    "vehicle_id": { "type": "string", "pattern": "^VEH-[0-9]{5}$" },
+    "route_id": { "type": "string", "pattern": "^RTE-[0-9]{6}$" },
+    "origin_cd": { "type": "string", "pattern": "^CD-[A-Z]{3}$" },
+    "destination_city": { "type": "string" },
+    "destination_state": { "type": "string", "pattern": "^[A-Z]{2}$" },
+    "promised_hours": { "type": "number", "minimum": 0 },
+    "actual_hours": { "type": ["number", "null"], "minimum": 0 },
+    "transport_cost": { "type": "number", "minimum": 0 },
+    "distance_km": { "type": "number", "minimum": 0 },
+    "weight_occupancy_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+    "volume_occupancy_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+    "departed_ts": { "type": "string", "format": "date-time" },
+    "delivered_ts": { "type": ["string", "null"], "format": "date-time" },
+    "status": { "type": "string", "enum": ["in_transit", "delivered", "failed", "returned"] },
+    "occurrence_flag": { "type": "boolean" }
+  }
+}

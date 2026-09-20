@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://logistream.local/contracts/orders.schema.json",
+  "title": "LogiStream order item",
+  "description": "Um item de pedido na API de e-commerce. Grao: order_item_id.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "order_id",
+    "order_item_id",
+    "order_ts",
+    "channel",
+    "customer_id",
+    "sku",
+    "quantity",
+    "unit_price",
+    "discount_amount",
+    "status",
+    "processing_minutes",
+    "destination_city",
+    "destination_state",
+    "destination_zip",
+    "origin_cd"
+  ],
+  "properties": {
+    "order_id": { "type": "string", "pattern": "^ORD-[0-9]{8}$" },
+    "order_item_id": { "type": "string", "pattern": "^ITM-[0-9]{10}$" },
+    "order_ts": { "type": "string", "format": "date-time" },
+    "channel": { "type": "string", "enum": ["site", "app", "marketplace"] },
+    "customer_id": { "type": "string", "pattern": "^CUS-[0-9]{8}$" },
+    "customer_email": { "type": ["string", "null"], "format": "email" },
+    "sku": { "type": "string", "pattern": "^SKU-[A-Z0-9]{6}$" },
+    "quantity": { "type": "integer", "minimum": 1 },
+    "unit_price": { "type": "number", "minimum": 0 },
+    "discount_amount": { "type": "number", "minimum": 0 },
+    "status": { "type": "string", "enum": ["placed", "processed", "shipped", "cancelled"] },
+    "processing_minutes": { "type": "integer", "minimum": 0 },
+    "destination_city": { "type": "string", "minLength": 2 },
+    "destination_state": { "type": "string", "pattern": "^[A-Z]{2}$" },
+    "destination_zip": { "type": "string", "pattern": "^[0-9]{8}$" },
+    "origin_cd": { "type": "string", "pattern": "^CD-[A-Z]{3}$" }
+  }
+}

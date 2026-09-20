@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://logistream.local/contracts/sensors.schema.json",
+  "title": "LogiStream sensor reading",
+  "description": "Leitura de GPS ou ambiente em veiculo ou CD. Grao: device_id + event_ts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "event_ts",
+    "device_id",
+    "device_type",
+    "metric"
+  ],
+  "properties": {
+    "event_id": { "type": "string", "pattern": "^EVT-[0-9A-F]{16}$" },
+    "event_ts": { "type": "string", "format": "date-time" },
+    "device_id": { "type": "string", "minLength": 4 },
+    "device_type": { "type": "string", "enum": ["fleet_gps", "fleet_environment", "warehouse_environment"] },
+    "vehicle_id": {
+      "anyOf": [
+        { "type": "null" },
+        { "type": "string", "pattern": "^VEH-[0-9]{5}$" }
+      ]
+    },
+    "origin_cd": {
+      "anyOf": [
+        { "type": "null" },
+        { "type": "string", "pattern": "^CD-[A-Z]{3}$" }
+      ]
+    },
+    "metric": { "type": "string", "enum": ["gps", "temperature", "humidity"] },
+    "lat": { "type": ["number", "null"], "minimum": -90, "maximum": 90 },
+    "lon": { "type": ["number", "null"], "minimum": -180, "maximum": 180 },
+    "speed_kmh": { "type": ["number", "null"], "minimum": 0 },
+    "temperature_c": { "type": ["number", "null"], "minimum": -30, "maximum": 80 },
+    "humidity_pct": { "type": ["number", "null"], "minimum": 0, "maximum": 100 }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "metric": { "const": "gps" } } },
+      "then": { "required": ["lat", "lon", "vehicle_id"] }
+    },
+    {
+      "if": { "properties": { "device_type": { "const": "warehouse_environment" } } },
+      "then": { "required": ["origin_cd"] }
+    }
+  ]
+}

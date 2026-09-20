@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://logistream.local/contracts/feedback.schema.json",
+  "title": "LogiStream customer feedback",
+  "description": "Avaliacao pos-entrega. Texto livre e PII. Grao: feedback_id.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "feedback_id",
+    "order_id",
+    "customer_id",
+    "submitted_ts",
+    "product_score",
+    "delivery_score",
+    "comment"
+  ],
+  "properties": {
+    "feedback_id": { "type": "string", "pattern": "^FBK-[0-9]{8}$" },
+    "order_id": { "type": "string", "pattern": "^ORD-[0-9]{8}$" },
+    "customer_id": { "type": "string", "pattern": "^CUS-[0-9]{8}$" },
+    "submitted_ts": { "type": "string", "format": "date-time" },
+    "product_score": { "type": "integer", "minimum": 1, "maximum": 5 },
+    "delivery_score": { "type": "integer", "minimum": 1, "maximum": 5 },
+    "nps_group": { "type": "string", "enum": ["detractor", "passive", "promoter"] },
+    "comment": { "type": "string", "maxLength": 1000 },
+    "contains_pii": { "type": "boolean" }
+  }
+}

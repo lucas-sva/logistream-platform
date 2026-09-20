@@ -44,7 +44,7 @@ module "databricks" {
   bronze_bucket_id  = module.lake.bronze_bucket_id
   silver_bucket_id  = module.lake.silver_bucket_id
   gold_bucket_id    = module.lake.gold_bucket_id
-  instance_profile_arn = module.iam.databricks_instance_profile_arn
+  instance_profile_arn = module.iam.databricks_role_arn
 
   providers = {
     databricks = databricks.workspace

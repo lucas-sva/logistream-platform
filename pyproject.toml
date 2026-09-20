@@ -1,0 +1,13 @@
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+src = ["data", "ingest", "stream", "spark", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"data/generator/generate.py" = ["E402"]
+"stream/sensor_producer.py" = ["E402"]
+"stream/create_topics.py" = ["E402"]

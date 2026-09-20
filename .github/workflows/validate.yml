@@ -1,0 +1,55 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: pip install -r requirements-dev.txt
+      - name: Lint
+        run: ruff check data ingest stream spark scripts
+      - name: Generate and validate contracts
+        run: |
+          python data/generator/generate.py
+          python data/generator/validate.py
+      - name: Dry-run stream contracts
+        run: |
+          python stream/create_topics.py --dry-run
+          python stream/sensor_producer.py --dry-run
+      - name: Local demo without Docker
+        run: python scripts/run_demo.py --dry-run-stream
+
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.8"
+      - name: Terraform init and validate
+        working-directory: infra/terraform
+        run: |
+          terraform init -backend=false
+          terraform validate
+
+  dbt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dbt
+        run: pip install "dbt-postgres>=1.8,<1.10"
+      - name: Parse project
+        working-directory: transform/dbt
+        run: dbt parse --profiles-dir .

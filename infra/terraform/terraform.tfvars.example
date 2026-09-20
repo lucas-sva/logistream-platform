@@ -1,0 +1,7 @@
+project_name = "logistream"
+environment  = "prod"
+aws_region   = "sa-east-1"
+
+# Fill locally. Do not commit terraform.tfvars.
+# databricks_host  = "https://xxx.cloud.databricks.com"
+# databricks_token = ""

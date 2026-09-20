@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: stg_orders
+    columns:
+      - name: order_item_id
+        tests: [not_null, unique]
+      - name: sku
+        tests: [not_null]
+      - name: quantity
+        tests: [not_null]
+
+  - name: stg_logistics
+    columns:
+      - name: delivery_id
+        tests: [not_null, unique]
+      - name: order_id
+        tests: [not_null]
+
+  - name: fato_pedido
+    columns:
+      - name: order_item_id
+        tests: [not_null, unique]
+      - name: sk_produto
+        tests: [not_null]
+      - name: quantity
+        tests: [not_null]
+
+  - name: fato_entrega
+    columns:
+      - name: delivery_id
+        tests: [not_null, unique]
+      - name: sk_veiculo
+        tests: [not_null]

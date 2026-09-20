@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: bronze
+    schema: bronze
+    description: Landing tables loaded from the JSONL contracts.
+    tables:
+      - name: orders
+      - name: logistics
+      - name: feedback
+      - name: sensors

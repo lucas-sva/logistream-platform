@@ -1,0 +1,13 @@
+logistream:
+  target: local
+  outputs:
+    local:
+      type: postgres
+      host: localhost
+      user: logistream
+      password: logistream
+      port: 5432
+      dbname: logistream
+      schema: gold
+      threads: 4
+      keepalives_idle: 0

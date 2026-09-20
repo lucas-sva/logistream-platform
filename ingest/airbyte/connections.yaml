@@ -1,0 +1,44 @@
+# Airbyte connections for LogiStream batch sources.
+# Production destinations write JSONL/Parquet to the Bronze S3 bucket.
+# Local demo uses ingest/local/load_bronze.py with the same streams.
+
+source:
+  orders:
+    name: logistream-orders-api
+    connector: source-http-request
+    stream: orders
+    sync_mode: incremental
+    cursor: order_ts
+    schedule: "*/15 * * * *"
+    destination_prefix: s3://logistream-prod-bronze/orders/dt={{ ds }}/
+
+  logistics:
+    name: logistream-tms-api
+    connector: source-http-request
+    stream: deliveries
+    sync_mode: incremental
+    cursor: departed_ts
+    schedule: "*/15 * * * *"
+    destination_prefix: s3://logistream-prod-bronze/logistics/dt={{ ds }}/
+
+  feedback:
+    name: logistream-feedback-api
+    connector: source-http-request
+    stream: feedback
+    sync_mode: full_refresh
+    cursor: submitted_ts
+    schedule: "0 6 * * *"
+    destination_prefix: s3://logistream-prod-bronze/feedback/dt={{ ds }}/
+
+destination:
+  type: s3
+  format: jsonl
+  compression: gzip
+  region: sa-east-1
+  bucket: logistream-prod-bronze
+  format_type: JSONL
+
+normalization: none
+notes:
+  - Bronze keeps the source payload. No dbt here.
+  - PII lands in Bronze and is tokenized only in Silver.

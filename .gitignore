@@ -1,0 +1,57 @@
+# Local environment
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.python-version
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# dbt
+transform/dbt/target/
+transform/dbt/dbt_packages/
+transform/dbt/logs/
+transform/dbt/.user.yml
+
+# Spark / data outputs
+spark-warehouse/
+metastore_db/
+data/output/
+*.crc
+_SUCCESS
+
+# Editors and agents
+.idea/
+.vscode/
+.cursor/
+.cursorrules
+.claude/
+.github/copilot-instructions.md
+.windsurf/
+.netlify/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Course material and local previews (not part of the public repo)
+data/*.pdf
+_pdf_preview/
+*.log

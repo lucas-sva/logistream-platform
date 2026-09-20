@@ -7,7 +7,6 @@ import argparse
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 
-
 SOURCES = ("orders", "logistics", "feedback", "sensors")
 
 

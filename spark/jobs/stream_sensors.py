@@ -8,7 +8,6 @@ from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 from pyspark.sql.types import DoubleType, StringType, StructField, StructType
 
-
 SENSOR_SCHEMA = StructType(
     [
         StructField("event_id", StringType()),
